@@ -1,0 +1,62 @@
+[
+  {
+    "question": "VPN error 809",
+    "expected_source": "vpn.md"
+  },
+  {
+    "question": "VPN authentication failure",
+    "expected_source": "vpn.md"
+  },
+  {
+    "question": "reset forgotten password",
+    "expected_source": "password.md"
+  },
+  {
+    "question": "account lockout failed sign-in",
+    "expected_source": "password.md"
+  },
+  {
+    "question": "lost MFA phone",
+    "expected_source": "mfa.md"
+  },
+  {
+    "question": "unexpected MFA approval prompts",
+    "expected_source": "mfa.md"
+  },
+  {
+    "question": "printer queue stuck",
+    "expected_source": "printer.md"
+  },
+  {
+    "question": "report phishing email",
+    "expected_source": "phishing.md"
+  },
+  {
+    "question": "deleted shared-drive file restoration",
+    "expected_source": "backup.md"
+  },
+  {
+    "question": "corporate Wi-Fi guest access",
+    "expected_source": "wifi.md"
+  },
+  {
+    "question": "Wi-Fi repeatedly disconnects",
+    "expected_source": "wifi.md"
+  },
+  {
+    "question": "new employee onboarding laptop",
+    "expected_source": "onboarding.md"
+  },
+  {
+    "question": "intergalactic xyzabc",
+    "expected_source": null
+  },
+  {
+    "question": "banana souffle recipe",
+    "expected_source": null
+  },
+  {
+    "question": "quantum cosmology theorem",
+    "expected_source": null
+  }
+]

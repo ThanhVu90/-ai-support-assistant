@@ -1,0 +1,142 @@
+{
+  "scope": "Authored English lexical retrieval regression; no live LLM calls",
+  "cases": 15,
+  "passed": 15,
+  "recall_at_4": 1.0,
+  "no_match_accuracy": 1.0,
+  "results": [
+    {
+      "question": "VPN error 809",
+      "expected_source": "vpn.md",
+      "retrieved": [
+        "vpn.md",
+        "vpn.md",
+        "password.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "VPN authentication failure",
+      "expected_source": "vpn.md",
+      "retrieved": [
+        "vpn.md",
+        "vpn.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "reset forgotten password",
+      "expected_source": "password.md",
+      "retrieved": [
+        "password.md",
+        "password.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "account lockout failed sign-in",
+      "expected_source": "password.md",
+      "retrieved": [
+        "password.md",
+        "mfa.md",
+        "password.md",
+        "vpn.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "lost MFA phone",
+      "expected_source": "mfa.md",
+      "retrieved": [
+        "mfa.md",
+        "mfa.md",
+        "vpn.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "unexpected MFA approval prompts",
+      "expected_source": "mfa.md",
+      "retrieved": [
+        "mfa.md",
+        "mfa.md",
+        "vpn.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "printer queue stuck",
+      "expected_source": "printer.md",
+      "retrieved": [
+        "printer.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "report phishing email",
+      "expected_source": "phishing.md",
+      "retrieved": [
+        "phishing.md",
+        "mfa.md",
+        "mfa.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "deleted shared-drive file restoration",
+      "expected_source": "backup.md",
+      "retrieved": [
+        "backup.md",
+        "printer.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "corporate Wi-Fi guest access",
+      "expected_source": "wifi.md",
+      "retrieved": [
+        "wifi.md",
+        "wifi.md",
+        "mfa.md",
+        "onboarding.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "Wi-Fi repeatedly disconnects",
+      "expected_source": "wifi.md",
+      "retrieved": [
+        "wifi.md",
+        "wifi.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "new employee onboarding laptop",
+      "expected_source": "onboarding.md",
+      "retrieved": [
+        "onboarding.md",
+        "wifi.md"
+      ],
+      "passed": true
+    },
+    {
+      "question": "intergalactic xyzabc",
+      "expected_source": null,
+      "retrieved": [],
+      "passed": true
+    },
+    {
+      "question": "banana souffle recipe",
+      "expected_source": null,
+      "retrieved": [],
+      "passed": true
+    },
+    {
+      "question": "quantum cosmology theorem",
+      "expected_source": null,
+      "retrieved": [],
+      "passed": true
+    }
+  ]
+}
