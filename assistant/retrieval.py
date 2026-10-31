@@ -50,9 +50,12 @@ class KnowledgeBase:
             text = path.read_text(encoding="utf-8-sig")
             if len(text) > 100_000:
                 raise ValueError("Document exceeds 100,000 characters")
+            if not text.strip():
+                raise ValueError(f"Knowledge file {path.name} is empty")
             title = text.splitlines()[0].lstrip("# ").strip()
             revision = hashlib.sha256(text.encode()).hexdigest()[:16]
             paragraphs = re.split(r"\n\s*\n", text)[1:]
+            file_rows = []
             for i, paragraph in enumerate(paragraphs, 1):
                 body = paragraph.strip()
                 if not body:
@@ -61,7 +64,12 @@ class KnowledgeBase:
                     raise ValueError(
                         "Paragraph exceeds 2,000 characters; split it before indexing"
                     )
-                rows.append((f"{path.stem}:{i}", path.name, title, body, revision))
+                file_rows.append((f"{path.stem}:{i}", path.name, title, body, revision))
+            if not file_rows:
+                raise ValueError(
+                    f"Knowledge file {path.name}: needs a heading line and one paragraph"
+                )
+            rows.extend(file_rows)
         if not rows:
             raise ValueError("Knowledge directory contains no paragraphs")
         with self.connect() as db:

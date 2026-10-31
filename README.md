@@ -38,7 +38,7 @@ No live model call was performed for this release. Provider tests use simulated 
 | Concern | Implementation |
 | --- | --- |
 | Retrieval | SQLite FTS5 + BM25, title weighting, bounded parameterized queries |
-| Ingestion | Markdown paragraph boundaries, deterministic IDs, content revisions, atomic replace |
+| Ingestion | Markdown paragraph boundaries, deterministic IDs, content revisions, atomic replace; each file needs a markdown heading line and at least one paragraph, and empty files are rejected with the file name |
 | Grounding | Strict output model, retrieved-ID allowlist, exact quote validation, duplicate rejection |
 | Reliability | Provider timeout, explicit 502/503/429 responses, no silent AI-to-search fallback |
 | Cost control | 20 queries/minute, two concurrent requests, bounded input and output |
