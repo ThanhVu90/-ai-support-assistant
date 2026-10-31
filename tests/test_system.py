@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 
 import httpx
@@ -61,6 +62,43 @@ def test_failed_ingestion_preserves_previous_index(kb, tmp_path):
     d.mkdir()
     (d / "bad.md").write_text("# Bad\n\n" + "x" * 2001)
     with pytest.raises(ValueError):
+        kb.ingest(d)
+    assert len(kb.catalog()) == 8
+
+
+@pytest.mark.parametrize(
+    ("name", "content"),
+    [("empty.md", ""), ("blank.md", "   \n\t ")],
+)
+def test_empty_knowledge_file_rejected_naming_the_file(kb, tmp_path, name, content):
+    d = tmp_path / "edge"
+    d.mkdir()
+    (d / "valid.md").write_text(
+        "# Valid\n\nA valid replacement paragraph.", encoding="utf-8"
+    )
+    (d / name).write_text(content, encoding="utf-8")
+    with pytest.raises(ValueError, match=rf"{re.escape(name)}"):
+        kb.ingest(d)
+    assert len(kb.catalog()) == 8
+
+
+@pytest.mark.parametrize(
+    ("name", "content"),
+    [
+        ("plain.md", "A single policy paragraph with no heading line at all."),
+        ("headingonly.md", "# Heading\n\n"),
+    ],
+)
+def test_unsupported_knowledge_structure_rejected_naming_the_file(
+    kb, tmp_path, name, content
+):
+    d = tmp_path / "edge"
+    d.mkdir()
+    (d / "valid.md").write_text(
+        "# Valid\n\nA valid replacement paragraph.", encoding="utf-8"
+    )
+    (d / name).write_text(content, encoding="utf-8")
+    with pytest.raises(ValueError, match=rf"{re.escape(name)}"):
         kb.ingest(d)
     assert len(kb.catalog()) == 8
 
