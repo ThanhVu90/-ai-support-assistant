@@ -1,7 +1,36 @@
 import time
 import uuid
 
-from .provider import ProviderError
+from .provider import Decision, ProviderError
+
+
+def validate_evidence(decision: Decision, chunks: list[dict]) -> list[dict]:
+    """Provenance gate shared by SupportService and the live evaluator.
+
+    Accepts only decisions that abstain consistently (no evidence) or cite
+    verbatim quotes from the chunks that were actually sent to the model, each
+    cited once. Everything else fails closed.
+    """
+    by_id = {chunk["id"]: chunk for chunk in chunks}
+    evidence = []
+    seen = set()
+    if not decision.sufficient:
+        if decision.evidence:
+            raise ProviderError("Inconsistent abstention")
+        return evidence
+    if not decision.evidence:
+        raise ProviderError("Missing supporting evidence")
+    for selection in decision.evidence:
+        chunk = by_id.get(selection.chunk_id)
+        if (
+            not chunk
+            or selection.quote not in chunk["body"]
+            or selection.chunk_id in seen
+        ):
+            raise ProviderError("Evidence failed provenance validation")
+        seen.add(selection.chunk_id)
+        evidence.append({**chunk, "quote": selection.quote})
+    return evidence
 
 
 class SupportService:
@@ -19,24 +48,9 @@ class SupportService:
             status = "search_results"
         elif chunks:
             decision = self.provider.select(question, chunks)
+            evidence = validate_evidence(decision, chunks)
             if decision.sufficient:
-                by_id = {c["id"]: c for c in chunks}
-                seen = set()
-                if not decision.evidence:
-                    raise ProviderError("Missing supporting evidence")
-                for selection in decision.evidence:
-                    chunk = by_id.get(selection.chunk_id)
-                    if (
-                        not chunk
-                        or selection.quote not in chunk["body"]
-                        or selection.chunk_id in seen
-                    ):
-                        raise ProviderError("Evidence failed provenance validation")
-                    seen.add(selection.chunk_id)
-                    evidence.append({**chunk, "quote": selection.quote})
                 status = "evidence_selected"
-            elif decision.evidence:
-                raise ProviderError("Inconsistent abstention")
         return {
             "request_id": str(uuid.uuid4()),
             "mode": "ai" if self.provider else "search",
